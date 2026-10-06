@@ -1,0 +1,31 @@
+# Despliegue COMPARTIDO: usar cuando la cuenta de Render ya tiene su PostgreSQL y su Redis gratis
+# (los usa otro microservicio). Este servicio crea su PROPIA base de datos (analytics_db) dentro de ese
+# servidor PostgreSQL, y usa su propia cola en el mismo Redis.
+# En Render: New -> Blueprint -> Blueprint Path: render.compartido.yaml
+services:
+  - type: web
+    name: analytics-service
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      # "Internal Database URL" del PostgreSQL que ya existe en esta cuenta.
+      - key: DATABASE_URL
+        sync: false
+      # Base de datos propia de este microservicio dentro de ese servidor (se crea sola).
+      - key: DB_NAME
+        value: analytics_db
+      # "Internal Key Value URL" del Redis que ya existe en esta cuenta.
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      # Mismo valor en TODOS los microservicios (autentica la entrega de eventos).
+      - key: INTERNAL_TOKEN
+        sync: false
+      - key: DEBUG
+        value: "0"
+      - key: RUN_WORKER_IN_WEB
+        value: "1"
+      - key: SYNC_TIMEOUT
+        value: "60"
