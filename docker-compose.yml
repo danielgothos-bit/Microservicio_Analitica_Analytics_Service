@@ -1,0 +1,50 @@
+services:
+  analytics_service:
+    build: .
+    container_name: analytics_service
+    ports:
+      - "8007:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/analytics_db
+      REDIS_URL: redis://redis:6379/0
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      - postgres
+      - redis
+
+  analytics_worker:
+    build: .
+    container_name: analytics_worker
+    command: celery -A comun.celery_app worker -Q analytics --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/analytics_db
+      REDIS_URL: redis://redis:6379/0
+    env_file:
+      - path: .env
+        required: false
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16
+    container_name: analytics_db
+    environment:
+      POSTGRES_DB: analytics_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: analytics_redis
+    ports:
+      - "6386:6379"
+
+volumes:
+  postgres_data:
