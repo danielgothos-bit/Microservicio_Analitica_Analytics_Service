@@ -14,6 +14,9 @@ import time
 
 import requests
 
+from .metricas import SYNC_LATENCY
+from .servicio import SERVICE_NAME
+
 logger = logging.getLogger("clientes")
 
 
@@ -78,7 +81,8 @@ def get_json(servicio, path, params=None):
 
     for intento in range(3):
         try:
-            resp = requests.get(url, params=params, timeout=timeout)
+            with SYNC_LATENCY.labels(SERVICE_NAME, servicio).time():
+                resp = requests.get(url, params=params, timeout=timeout)
             if resp.status_code == 404:
                 circuito.exito()
                 return None

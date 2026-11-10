@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .eventos import INTERNAL_TOKEN
+from .metricas import EVENTS_RECEIVED
 from .models import EventoProcesado
 from .servicio import SERVICE_NAME
 
@@ -41,9 +42,11 @@ def recibir_evento(request):
     handler = handlers.get(evento)
 
     if handler is None:
+        EVENTS_RECEIVED.labels(SERVICE_NAME, evento or "?", "ignored").inc()
         return Response({"status": "ignored", "event": evento})
 
     if event_id and EventoProcesado.objects.filter(event_id=event_id).exists():
+        EVENTS_RECEIVED.labels(SERVICE_NAME, evento, "duplicate").inc()
         return Response({"status": "duplicate", "event": evento})
 
     logger.info("evento recibido", extra={"evento": evento, "origen": request.data.get("source")})
@@ -52,4 +55,5 @@ def recibir_evento(request):
         if event_id:
             EventoProcesado.objects.create(event_id=event_id, event=evento, source=request.data.get("source") or "")
 
+    EVENTS_RECEIVED.labels(SERVICE_NAME, evento, "processed").inc()
     return Response({"status": "processed", "event": evento})

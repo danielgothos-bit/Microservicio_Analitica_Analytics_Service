@@ -1,0 +1,99 @@
+# Pipeline CI/CD de InsureFlow (sección 9 del documento de arquitectura)
+# lint -> pruebas -> seguridad de dependencias -> imagen Docker -> despliegue en Render
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop, "feature/**", "hotfix/**"]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install flake8
+      - run: flake8 .
+
+  pruebas:
+    name: Pruebas automáticas
+    runs-on: ubuntu-latest
+    needs: lint
+    env:
+      USE_SQLITE: "1"
+      CELERY_EAGER: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py test analitica -v 2
+
+  seguridad:
+    name: Seguridad de dependencias (pip-audit)
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - run: pip-audit -r requirements.txt --progress-spinner off
+
+  docker:
+    name: Imagen Docker
+    runs-on: ubuntu-latest
+    needs: [pruebas, seguridad]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Login al registro de contenedores (GHCR)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Construir (y publicar en main) la imagen versionada
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          tags: |
+            ghcr.io/danielgothos-bit/microservicio_analitica_analytics_service:${{ github.sha }}
+            ghcr.io/danielgothos-bit/microservicio_analitica_analytics_service:latest
+
+  despliegue:
+    name: Despliegue en Render (producción)
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # El entorno "produccion" puede exigir aprobación manual (Settings -> Environments).
+    environment: produccion
+    steps:
+      - name: Disparar el despliegue en Render
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "Falta el secreto RENDER_DEPLOY_HOOK_URL: despliegue omitido."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"
+          echo "Despliegue solicitado a Render."

@@ -20,6 +20,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 
 from .celery_app import app
+from .metricas import EVENTS_PUBLISHED
 from .servicio import SERVICE_NAME
 
 logger = logging.getLogger("eventos")
@@ -56,6 +57,7 @@ def publicar(evento, data):
     }, cls=DjangoJSONEncoder))
 
     logger.info("evento publicado", extra={"evento": evento, "data": payload["data"]})
+    EVENTS_PUBLISHED.labels(SERVICE_NAME, evento).inc()
 
     for destino in SUSCRIPTORES.get(evento, []):
         url = os.getenv(f"{destino}_SERVICE_URL")
