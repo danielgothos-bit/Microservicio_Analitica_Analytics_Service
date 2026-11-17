@@ -1,0 +1,350 @@
+[
+{
+  "model": "analitica.claimsbytype",
+  "pk": 1,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-10-01",
+    "claim_count": 2,
+    "total_amount": "8000000.00"
+  }
+},
+{
+  "model": "analitica.claimsbytype",
+  "pk": 34,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-11-01",
+    "claim_count": 5,
+    "total_amount": "16100000.00"
+  }
+},
+{
+  "model": "analitica.claimsbytype",
+  "pk": 35,
+  "fields": {
+    "product_type": "hogar",
+    "period": "2026-11-01",
+    "claim_count": 2,
+    "total_amount": "8400000.00"
+  }
+},
+{
+  "model": "analitica.avgresolutiontime",
+  "pk": 1,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-10-01",
+    "avg_days": "0.00",
+    "resolved_count": 2
+  }
+},
+{
+  "model": "analitica.avgresolutiontime",
+  "pk": 34,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-11-01",
+    "avg_days": "0.00",
+    "resolved_count": 3
+  }
+},
+{
+  "model": "analitica.avgresolutiontime",
+  "pk": 35,
+  "fields": {
+    "product_type": "hogar",
+    "period": "2026-11-01",
+    "avg_days": "0.00",
+    "resolved_count": 2
+  }
+},
+{
+  "model": "analitica.lossratiobyproduct",
+  "pk": 1,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-10-01",
+    "premiums_earned": "1300000.00",
+    "claims_paid": "8000000.00",
+    "loss_ratio": "6.1538"
+  }
+},
+{
+  "model": "analitica.lossratiobyproduct",
+  "pk": 34,
+  "fields": {
+    "product_type": "auto",
+    "period": "2026-11-01",
+    "premiums_earned": "1260000.00",
+    "claims_paid": "10500000.00",
+    "loss_ratio": "8.3333"
+  }
+},
+{
+  "model": "analitica.lossratiobyproduct",
+  "pk": 35,
+  "fields": {
+    "product_type": "hogar",
+    "period": "2026-11-01",
+    "premiums_earned": "438000.00",
+    "claims_paid": "8400000.00",
+    "loss_ratio": "19.1781"
+  }
+},
+{
+  "model": "analitica.lossratiobyproduct",
+  "pk": 36,
+  "fields": {
+    "product_type": "vida",
+    "period": "2026-11-01",
+    "premiums_earned": "174000.00",
+    "claims_paid": "0.00",
+    "loss_ratio": "0.0000"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "313fe9b3-ad9a-4b38-afa9-2e812a649b5f",
+  "fields": {
+    "id_asegurado": "53392dff-d46c-4b66-8e48-1e83aa9b4d69",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "37255788-8e19-4072-a686-6bc117107d5e",
+  "fields": {
+    "id_asegurado": "53392dff-d46c-4b66-8e48-1e83aa9b4d69",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "38d4dbc7-243f-466f-bbe1-a5d866eab3e5",
+  "fields": {
+    "id_asegurado": "7ba35437-8689-422e-8082-867664cd65be",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "3a832b0b-2447-4424-ba12-0810df889ef0",
+  "fields": {
+    "id_asegurado": "5f547a3c-bd54-4d05-82b6-b55068d0cc58",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "42edbd8c-91b9-4410-9b89-7fb4d6219b08",
+  "fields": {
+    "id_asegurado": "47a8895d-881a-41ee-ba2d-7d48b5cbbc6c",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "5f08372e-b05a-45a4-88e7-2dd2e52da833",
+  "fields": {
+    "id_asegurado": "699b755e-1fef-4ab6-96f7-de580bf18cba",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "67471254-1f71-4418-9627-5395d1369eb5",
+  "fields": {
+    "id_asegurado": "f981402e-0777-42b1-9aae-d86aa132f2ed",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "a33fc5a2-336a-483f-bde5-c482a1618e19",
+  "fields": {
+    "id_asegurado": "e670e357-4430-489b-a2a7-e709e96da39c",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "a5ae718c-79c3-4cec-a7b5-4fa5f03a7742",
+  "fields": {
+    "id_asegurado": "5f547a3c-bd54-4d05-82b6-b55068d0cc58",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "ab868ded-7b3d-4234-b01c-4b27cd002e4c",
+  "fields": {
+    "id_asegurado": "f981402e-0777-42b1-9aae-d86aa132f2ed",
+    "product_type": "vida"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "adc099d7-c6ff-48fd-a72f-c15d61374784",
+  "fields": {
+    "id_asegurado": "f981402e-0777-42b1-9aae-d86aa132f2ed",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "b0ab0ed2-6075-48ba-820e-431042ea558c",
+  "fields": {
+    "id_asegurado": "5f547a3c-bd54-4d05-82b6-b55068d0cc58",
+    "product_type": "vida"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "b675317d-5e7d-47ff-aba7-87c43d62be61",
+  "fields": {
+    "id_asegurado": "61edfb02-7f84-465b-8df1-977b50077f06",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "bec27b8c-598c-4989-8060-5ac15e14a215",
+  "fields": {
+    "id_asegurado": "699b755e-1fef-4ab6-96f7-de580bf18cba",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "e545ffdc-9cd1-40a9-b0c8-fdbce4cf28d2",
+  "fields": {
+    "id_asegurado": "47a8895d-881a-41ee-ba2d-7d48b5cbbc6c",
+    "product_type": "auto"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "edd8512f-db4e-4df2-94ee-438b1c9a2166",
+  "fields": {
+    "id_asegurado": "47a8895d-881a-41ee-ba2d-7d48b5cbbc6c",
+    "product_type": "hogar"
+  }
+},
+{
+  "model": "analitica.dimpoliza",
+  "pk": "f74496cc-9959-4b36-a6b8-92e9d969ce3a",
+  "fields": {
+    "id_asegurado": "53392dff-d46c-4b66-8e48-1e83aa9b4d69",
+    "product_type": "vida"
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "2baff5aa-9343-41e1-acb2-cc6fb6ff00a9",
+  "fields": {
+    "id_poliza": "adc099d7-c6ff-48fd-a72f-c15d61374784",
+    "id_asegurado": "f981402e-0777-42b1-9aae-d86aa132f2ed",
+    "product_type": "auto",
+    "reported_at": "2026-11-17T16:57:44.592Z",
+    "estimated_amount": "3500000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "4a1977af-5bc5-408d-8f8e-272e58f39292",
+  "fields": {
+    "id_poliza": "38d4dbc7-243f-466f-bbe1-a5d866eab3e5",
+    "id_asegurado": "7ba35437-8689-422e-8082-867664cd65be",
+    "product_type": "auto",
+    "reported_at": "2026-10-06T16:53:57.973Z",
+    "estimated_amount": "4500000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "4a5360c4-bc2d-4310-8368-3ea0a92be3ab",
+  "fields": {
+    "id_poliza": "bec27b8c-598c-4989-8060-5ac15e14a215",
+    "id_asegurado": "699b755e-1fef-4ab6-96f7-de580bf18cba",
+    "product_type": "auto",
+    "reported_at": "2026-11-17T17:16:42.095Z",
+    "estimated_amount": "2800000.00",
+    "resuelto": false
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "64c5ebfb-0cf6-466b-a318-9a8e06deab82",
+  "fields": {
+    "id_poliza": "e545ffdc-9cd1-40a9-b0c8-fdbce4cf28d2",
+    "id_asegurado": "47a8895d-881a-41ee-ba2d-7d48b5cbbc6c",
+    "product_type": "auto",
+    "reported_at": "2026-11-17T17:18:27.533Z",
+    "estimated_amount": "2800000.00",
+    "resuelto": false
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "7f647c80-746c-4cff-9af7-4a994b6729de",
+  "fields": {
+    "id_poliza": "42edbd8c-91b9-4410-9b89-7fb4d6219b08",
+    "id_asegurado": "47a8895d-881a-41ee-ba2d-7d48b5cbbc6c",
+    "product_type": "hogar",
+    "reported_at": "2026-11-17T17:18:46.614Z",
+    "estimated_amount": "4200000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "a64199f0-434f-4a63-ad7b-dd513b4233e7",
+  "fields": {
+    "id_poliza": "5f08372e-b05a-45a4-88e7-2dd2e52da833",
+    "id_asegurado": "699b755e-1fef-4ab6-96f7-de580bf18cba",
+    "product_type": "hogar",
+    "reported_at": "2026-11-17T17:16:58.544Z",
+    "estimated_amount": "4200000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "d5e56d78-cd6f-4242-9c43-96c67c65b85f",
+  "fields": {
+    "id_poliza": "b675317d-5e7d-47ff-aba7-87c43d62be61",
+    "id_asegurado": "61edfb02-7f84-465b-8df1-977b50077f06",
+    "product_type": "auto",
+    "reported_at": "2026-10-13T18:54:23.609Z",
+    "estimated_amount": "3500000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "df64f2b9-88de-41c3-a181-c6f430740f93",
+  "fields": {
+    "id_poliza": "37255788-8e19-4072-a686-6bc117107d5e",
+    "id_asegurado": "53392dff-d46c-4b66-8e48-1e83aa9b4d69",
+    "product_type": "auto",
+    "reported_at": "2026-11-10T19:59:35.116Z",
+    "estimated_amount": "3500000.00",
+    "resuelto": true
+  }
+},
+{
+  "model": "analitica.dimsiniestro",
+  "pk": "ece2df0e-cd37-43c1-93d3-d7655bf77eef",
+  "fields": {
+    "id_poliza": "a5ae718c-79c3-4cec-a7b5-4fa5f03a7742",
+    "id_asegurado": "5f547a3c-bd54-4d05-82b6-b55068d0cc58",
+    "product_type": "auto",
+    "reported_at": "2026-11-10T19:56:57.516Z",
+    "estimated_amount": "3500000.00",
+    "resuelto": true
+  }
+}
+]

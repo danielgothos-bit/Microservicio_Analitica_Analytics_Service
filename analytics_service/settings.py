@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "comun",
     "analitica",
 ]
@@ -76,6 +77,7 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": [],
     "UNAUTHENTICATED_USER": None,
@@ -91,4 +93,12 @@ LOGGING = {
     "formatters": {"json": {"()": "comun.logs.JsonFormatter"}},
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "json"}},
     "root": {"handlers": ["console"], "level": os.getenv("LOG_LEVEL", "INFO")},
+}
+
+# Documentación de la API (OpenAPI 3 + Swagger UI en /api/docs).
+SPECTACULAR_SETTINGS = {
+    "TITLE": "InsureFlow · Analítica (Analytics Service)",
+    "DESCRIPTION": "API REST del microservicio Analítica (Analytics Service). Versión 1 bajo el prefijo /api/v1/.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }

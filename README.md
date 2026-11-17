@@ -70,3 +70,57 @@ docker compose exec analytics_service python manage.py test analitica
 
 En Render: **New → Blueprint** → conectar este repositorio → **Deploy Blueprint**.
 El `render.yaml` crea el servicio web, su PostgreSQL y su Redis (plan gratis).
+
+## Enlaces
+
+| | |
+|---|---|
+| Servicio desplegado | https://analytics-service-jdq6.onrender.com |
+| Estado (health check) | https://analytics-service-jdq6.onrender.com/health |
+| Documentación de la API (Swagger) | https://analytics-service-jdq6.onrender.com/api/docs |
+| Esquema OpenAPI | https://analytics-service-jdq6.onrender.com/api/schema |
+| Métricas Prometheus | https://analytics-service-jdq6.onrender.com/metrics |
+| Sitio y API Gateway | https://insureflow-gateway-kxhm.onrender.com |
+
+## Pruebas y cobertura
+
+Las pruebas exigidas están en `tests/`:
+
+- `tests/test_unitarias.py`: **2 pruebas unitarias** que verifican una regla de negocio aislada, con *mocks* para la base de datos, otros microservicios, la pasarela o el bus de eventos.
+- `tests/test_integracion.py`: **1 prueba de integración** que recorre endpoint, lógica de negocio y base de datos.
+- Las pruebas adicionales de la aplicación están en `<app>/tests.py`.
+
+Para ejecutarlas (sin PostgreSQL ni Redis):
+
+```bash
+pip install -r requirements.txt coverage
+USE_SQLITE=1 CELERY_EAGER=1 coverage run manage.py test -v 2
+coverage report        # porcentaje de cobertura
+coverage html          # reporte navegable en htmlcov/
+```
+
+En GitHub Actions (`.github/workflows/ci.yml`) el reporte de cobertura se publica en el resumen de la ejecución y como artefacto `reporte-cobertura`.
+
+## CI/CD
+
+| Archivo | Función |
+|---|---|
+| `.github/workflows/ci.yml` | En cada push y pull request: lint (flake8), pruebas unitarias y de integración con cobertura, auditoría de dependencias (pip-audit) e imagen Docker. Si algo falla, no se despliega. |
+| `.github/workflows/deploy.yml` | Solo cuando CI termina con éxito en `main`: llama al Deploy Hook de Render (secreto `RENDER_DEPLOY_HOOK_URL`) y espera a que `/health` responda. |
+| `.github/workflows/codeql.yml` | Análisis estático de seguridad. |
+
+**Estrategia de ramas (GitFlow):**
+
+- `main`: producción.
+- `develop`: integración.
+- `feature/*`: funcionalidades nuevas.
+- `hotfix/*`: correcciones urgentes.
+
+Los cambios entran por *pull request* con el pipeline en verde.
+
+## Base de datos
+
+- **Esquema:** migraciones de Django en `<app>/migrations/`, que se aplican solas al arrancar el contenedor (`start.sh`).
+- **Datos de ejemplo:** `datos/datos_ejemplo.json`. Para cargarlos: `python manage.py loaddata datos/datos_ejemplo.json`.
+- **Respaldo:** `datos/respaldo.sql` (volcado de PostgreSQL con `pg_dump`).
+- **Variables de entorno:** ver `.env.example`. No se suben credenciales al repositorio.

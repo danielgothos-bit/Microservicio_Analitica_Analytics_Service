@@ -1,0 +1,37 @@
+# Despliegue continuo: solo corre cuando el workflow CI termina CON ÉXITO en la rama main.
+# Si una prueba falla, CI queda en rojo y este workflow no despliega.
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Desplegar en Render
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    environment:
+      name: produccion
+      url: https://analytics-service-jdq6.onrender.com
+    steps:
+      - name: Disparar el despliegue con el Deploy Hook de Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "::error::Falta el secreto RENDER_DEPLOY_HOOK_URL (GitHub -> Settings -> Secrets and variables -> Actions)."
+            exit 1
+          fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "Despliegue solicitado a Render para el commit ${{ github.event.workflow_run.head_sha || github.sha }}."
+      - name: Esperar a que el servicio responda en /health
+        run: |
+          for i in $(seq 1 40); do
+            if curl -fsS https://analytics-service-jdq6.onrender.com/health; then echo; echo "Servicio en línea."; exit 0; fi
+            sleep 15
+          done
+          echo "::warning::El servicio no respondió a tiempo; revisa el panel de Render."
